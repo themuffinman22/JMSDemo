@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
-import { Category, Item } from '../../types/Item';
-import useItemFilter from '../../hooks/use-item-filter'
+import { Item } from '../types/Item';
+import useItemFilter from '../hooks/use-item-filter'
 
 const items: Item[] = [
   { id: 1, name: 'Item 1', category: 'Bills', price: 100, createdAt: '2024-01-01' },
@@ -35,15 +35,15 @@ export default function TabOneScreen() {
     <View style={styles.subContainer}>
       <TextInput
         style={styles.input}
-        placeholder="Search"
+        placeholder='Search'
         value={state.searchText}
         onChangeText={handleSearch}
       />
-      <Button title="Sort by Price" onPress={handleSortToggle} />
-      <Button title="All" onPress={() => handleFilterChange("All")} />
-      <Button title="Bills" onPress={() => handleFilterChange("Bills")} />
-      <Button title="Food" onPress={() => handleFilterChange("Food")} />
-      <Button title="Misc." onPress={() => handleFilterChange("Misc")} />
+      <Button title='Sort by Price' onPress={handleSortToggle} />
+      <Button title='All' onPress={() => handleFilterChange('All')} />
+      <Button title='Bills' onPress={() => handleFilterChange('Bills')} />
+      <Button title='Food' onPress={() => handleFilterChange('Food')} />
+      <Button title='Misc.' onPress={() => handleFilterChange('Misc')} />
       <FlatList
         data={state.filteredData}
         keyExtractor={(item) => item.id.toString()}

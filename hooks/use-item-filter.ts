@@ -1,38 +1,36 @@
 import { useEffect, useReducer } from 'react';
 import { Category, Item } from '../types/Item';
 
-// Action Types
 type Action =
   | { type: 'SET_SEARCH_TEXT'; payload: string }
   | { type: 'SET_FILTER'; payload: Category }
   | { type: 'TOGGLE_SORT' };
 
-// Initial State
 const initialState = {
   searchText: '',
-  currentFilter: 'All', // Default category filter
+  currentFilter: 'All', // Default
   sortOrder: false, // Sort order (false = ascending, true = descending)
   filteredData: [] as Item[], // Initial filtered data
-  items: [] as Item[], // This will store the raw items
+  items: [] as Item[],
 };
 
 // Helper function for sorting
 const sortData = (data: Item[], sortOrder: boolean): Item[] => {
   return [...data].sort((a, b) => {
     if (sortOrder) {
-      return b.price - a.price; // Sort descending
+      return b.price - a.price; // Sort by descending 
     } else {
-      return a.price - b.price; // Sort ascending
+      return a.price - b.price; // Sort by ascending
     }
   });
 };
 
 // Helper function to filter data by category and search text
 const filterAndSearchData = (items: Item[], category: Category, searchText: string): Item[] => {
-  // If category is "All", don't filter by category but apply search
+  // If category is 'All', don't filter by category but apply search
   const filteredByCategory = category === Category.All 
-    ? items  // Show all items for "All" category
-    : items.filter(item => item.category === category);  // Filter by specific category
+    ? items  
+    : items.filter(item => item.category === category);
 
   // Apply search filter to the data (search is always applied regardless of category)
   return filteredByCategory.filter(item =>
@@ -40,7 +38,7 @@ const filterAndSearchData = (items: Item[], category: Category, searchText: stri
   );
 };
 
-// Reducer function
+// Reducer to handle search, filter by category, and asc/dsc sort
 function reducer(state: any, action: Action) {
   switch (action.type) {
     case 'SET_SEARCH_TEXT': {
@@ -68,7 +66,7 @@ function reducer(state: any, action: Action) {
       return {
         ...state,
         filteredData: sortedDataAfterToggle,
-        sortOrder: !state.sortOrder, // Toggle sort order
+        sortOrder: !state.sortOrder,
       };
     }
 
@@ -84,22 +82,22 @@ const useItemFilter = (items: Item[]) => {
     items, // Now pass the items to the initial state
   });
 
-  // Use useEffect to populate filteredData on initial render
+  // Runs on mount to ensure data renders
   useEffect(() => {
     dispatch({ type: 'SET_FILTER', payload: Category.All });
-  }, []); // Runs on mount to ensure data renders
+  }, []);
 
-  // Handle search input change
+  // Handle change search text
   const handleSearch = (text: string) => {
     dispatch({ type: 'SET_SEARCH_TEXT', payload: text });
   };
 
-  // Handle category filter change
+  // Handle change category filter
   const handleFilterChange = (category: Category) => {
     dispatch({ type: 'SET_FILTER', payload: category });
   };
 
-  // Handle sort toggle
+  // Handle asc/dsc toggle of sorting
   const handleSortToggle = () => {
     dispatch({ type: 'TOGGLE_SORT' });
   };
