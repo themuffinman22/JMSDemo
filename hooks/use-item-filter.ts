@@ -9,7 +9,7 @@ type Action =
 const initialState = {
   searchText: '',
   currentFilter: 'All', // Default
-  sortOrder: false, // Sort order (false = ascending, true = descending)
+  sortOrder: true, // Sort order (false = ascending, true = descending)
   filteredData: [] as Item[], // Initial filtered data
   items: [] as Item[],
 };
@@ -17,12 +17,22 @@ const initialState = {
 // Helper function for sorting
 const sortData = (data: Item[], sortOrder: boolean): Item[] => {
   return [...data].sort((a, b) => {
+    const dateA = new Date(a.createdAt);  // Convert 'createdAt' to Date object
+    const dateB = new Date(b.createdAt);  // Convert 'createdAt' to Date object
+
     if (sortOrder) {
-      return b.price - a.price; // Sort by descending 
+      return dateA.valueOf() - dateB.valueOf();  // Ascending order: smaller dates come first
     } else {
-      return a.price - b.price; // Sort by ascending
+      return dateB.valueOf() - dateA.valueOf();  // Ascending order: smaller dates come first
     }
   });
+  // return [...data].sort((a, b) => {
+  //   if (sortOrder) {
+  //     return b.price - a.price; // Sort by descending 
+  //   } else {
+  //     return a.price - b.price; // Sort by ascending
+  //   }
+  // });
 };
 
 // Helper function to filter data by category and search text

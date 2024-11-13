@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native';
 import { Item } from '../types/Item';
 import useItemFilter from '../hooks/use-item-filter'
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Searchbar, Button } from 'react-native-paper';
 
 const items: Item[] = [
   { id: 1, name: 'Netflix', category: 'Bills', price: 15.49, createdAt: '2024-11-01' },
@@ -49,18 +50,30 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.subContainer}>
-      <TextInput
+      <Searchbar
+        placeholder="Search"
+        value={state.searchText}
+        onChangeText={handleSearch}
+        style={styles.searchBar}
+      />
+      {/* <TextInput
         style={styles.input}
         placeholder='Search'
         value={state.searchText}
         onChangeText={handleSearch}
-      />
-      <SegmentedControl
-        values={['All', 'Bills', 'Food', 'Misc']}
-        // selectedIndex={this.state.selectedIndex}
-        onValueChange={val => handleFilterChange(val)}
-      />
-      <Button title='Sort by Price' onPress={handleSortToggle} />
+      /> */}
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <SegmentedControl
+          values={['All', 'Bills', 'Food', 'Misc']}
+          // selectedIndex={this.state.selectedIndex}
+          onValueChange={val => handleFilterChange(val)}
+          style={{margin: 12.5, flex: 1, paddingVertical: 20 }}
+        />
+        <Button labelStyle={styles.sortLabel} style={styles.sort} icon="sort" mode="contained" onPress={handleSortToggle}>
+            Sort
+        </Button>
+      </View>
+
       {/* <Button title='All' onPress={() => handleFilterChange('All')} />
       <Button title='Bills' onPress={() => handleFilterChange('Bills')} />
       <Button title='Food' onPress={() => handleFilterChange('Food')} />
@@ -97,16 +110,26 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flex: 1,
-    paddingTop: 10,
+    // paddingTop: 10,
     // paddingHorizontal: 10,
     // padding: 20,
   },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 8,
+  sortLabel: {
+    padding: 0, 
+    margin: 0
+  }, 
+  sort: {
+    width: 90, 
+    height: 40, 
+    marginRight: 12.5,
+  },
+  searchBar: {
+    borderRadius: 0,
+    // height: 40,
+    // borderColor: 'gray',
+    // borderWidth: 1,
+    // marginBottom: 10,
+    // paddingLeft: 8,
   },
   item: {
     padding: 10,
