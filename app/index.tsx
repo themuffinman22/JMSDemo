@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { Item } from '../types/Item';
 import useItemFilter from '../hooks/use-item-filter'
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Searchbar, Button } from 'react-native-paper';
+import { Searchbar, Button, PaperProvider, Portal, Dialog, RadioButton } from 'react-native-paper';
 
 const items: Item[] = [
   { id: 1, name: 'Netflix', category: 'Bills', price: 15.49, createdAt: '2024-11-01' },
@@ -48,7 +47,17 @@ export default function TabOneScreen() {
     handleSortToggle,
   } = useItemFilter(items); // Using the custom hook
 
+  const [visible, setVisible] = React.useState(false);
+
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = () => setVisible(false);
+
+  const [checked, setChecked] = React.useState('first');
+
+
   return (
+    <PaperProvider>
     <View style={styles.subContainer}>
       <Searchbar
         placeholder="Search"
@@ -56,16 +65,10 @@ export default function TabOneScreen() {
         onChangeText={handleSearch}
         style={styles.searchBar}
       />
-      {/* <TextInput
-        style={styles.input}
-        placeholder='Search'
-        value={state.searchText}
-        onChangeText={handleSearch}
-      /> */}
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <SegmentedControl
           values={['All', 'Bills', 'Food', 'Misc']}
-          // selectedIndex={this.state.selectedIndex}
+          selectedIndex={0}
           onValueChange={val => handleFilterChange(val)}
           style={{margin: 12.5, flex: 1, paddingVertical: 20 }}
         />
@@ -73,11 +76,27 @@ export default function TabOneScreen() {
             Sort
         </Button>
       </View>
-
-      {/* <Button title='All' onPress={() => handleFilterChange('All')} />
-      <Button title='Bills' onPress={() => handleFilterChange('Bills')} />
-      <Button title='Food' onPress={() => handleFilterChange('Food')} />
-      <Button title='Misc.' onPress={() => handleFilterChange('Misc')} />  */}
+      <Portal>
+          <Dialog visible={true} onDismiss={hideDialog}>
+            <Dialog.Title>Alert</Dialog.Title>
+            <Dialog.Content>
+            <RadioButton
+        value="first"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="second"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      />
+              <Text variant="bodyMedium">This is simple dialog</Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={hideDialog}>Done</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
       <FlatList
         contentContainerStyle={{paddingHorizontal: 10}}
         data={state.filteredData}
@@ -90,6 +109,7 @@ export default function TabOneScreen() {
         )}
       />
   </View>
+  </PaperProvider>
   );
 }
 
