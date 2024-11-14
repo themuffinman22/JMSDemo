@@ -14,14 +14,14 @@ const initialState = {
   items: [] as Item[],
 };
 
-// Helper function for sorting
+//vSorting
 const sortData = (data: Item[], sortBy: SortCategory): Item[] => {
   return [...data].sort((a, b) => {
     switch(sortBy) {
       case 'PriceASC':
-        return b.price - a.price; //sort price by ascending
+        return b.price - a.price; // sort price by ascending
       case 'PriceDSC':
-        return a.price - b.price; //sort date by ascending
+        return a.price - b.price; //vsort date by ascending
       case 'DateASC':
         return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();  // Sort date by asscending 
       case 'DateDSC':
@@ -32,7 +32,7 @@ const sortData = (data: Item[], sortBy: SortCategory): Item[] => {
   });
 };
 
-// Helper function to filter data by category and search text
+//vFilter data by category and search text
 const filterAndSearchData = (items: Item[], category: Category, searchText: string): Item[] => {
   // If category is 'All', don't filter by category but apply search
   const filteredByCategory = category === Category.All 
@@ -103,7 +103,7 @@ const useItemFilter = (items: Item[]) => {
     dispatch({ type: 'SET_FILTER', payload: category });
   };
 
-  // Handle asc/dsc toggle of sorting
+  // Handle ASC/DSC toggle of sorting by date or price
   const handleSortToggle = (sortCategory: SortCategory) => {
     dispatch({ type: 'TOGGLE_SORT', payload: sortCategory});
   };

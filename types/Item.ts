@@ -1,4 +1,4 @@
-export const Category = { // cant do enum need at runtime
+export const Category = { 
     All: 'All',
     Bills: 'Bills',
     Food: 'Food',
@@ -7,7 +7,7 @@ export const Category = { // cant do enum need at runtime
 
 export type Category = typeof Category[keyof typeof Category]; 
 
-export const SortCategory = { // cant do enum need at runtime
+export const SortCategory = {
     PriceASC: 'PriceASC',
     PriceDSC: 'PriceDSC',
     DateASC: 'DateASC',

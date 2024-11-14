@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Item, SortCategory, Category } from '../types/Item';
 import useItemFilter from '../hooks/use-item-filter'
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { Searchbar, Button, PaperProvider, Portal, Dialog, Divider  } from 'react-native-paper';
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import SortButton from '../components/sort-button/sort-button';
+import TransactionList from '../components/transaction-list/transaction-list';
 
 const items: Item[] = [
   { id: 1, name: 'Netflix', category: 'Bills', price: 15.49, createdAt: '2024-11-01' },
@@ -40,22 +41,12 @@ const items: Item[] = [
 ];
 
 export default function TabOneScreen() {
-
   const {
     state,
     handleSearch,
     handleFilterChange,
     handleSortToggle,
-  } = useItemFilter(items); // Using the custom hook
-
-  const [visible, setVisible] = React.useState(false);
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
-  const currentSort = state.sortBy;
-  const setSort = (sort: SortCategory) => {
-    handleSortToggle(sort)
-    hideDialog()
-  }
+  } = useItemFilter(items); // custom hook
 
   return (
     <PaperProvider>
@@ -66,70 +57,18 @@ export default function TabOneScreen() {
         onChangeText={handleSearch}
         style={styles.searchBar}
       />
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <Divider/>
+      <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: "#f2f2f2"}}>
         <SegmentedControl
           values={['All', 'Bills', 'Food', 'Misc']}
           selectedIndex={0}
-          onValueChange={(val:Category) => handleFilterChange(val)}
+          onValueChange={(val) => handleFilterChange(val)}
           style={{margin: 12.5, flex: 1, paddingVertical: 20 }}
         />
-        <Button 
-          labelStyle={styles.sortLabel} 
-          style={styles.sort} 
-          icon="sort" 
-          mode="contained" 
-          onPress={showDialog}
-        >
-          Sort
-        </Button>
+        <SortButton sortBy={state.sortBy} handleSortToggle={handleSortToggle}/>
       </View>
       <Divider/>
-      <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
-          <Dialog.Title>Sort By:</Dialog.Title>
-          <Dialog.Content>
-            <RadioButtonGroup
-              containerStyle={{ marginBottom: 10 }}
-              selected={currentSort}
-              onSelected={(value: SortCategory) => setSort(value)}
-              radioBackground="green"
-            >
-              <RadioButtonItem 
-                value='PriceASC' 
-                label={<Text style={{ color: "red" }}>Highest Price</Text>}              
-              />
-              <RadioButtonItem
-                value='PriceDSC'
-                label={<Text style={{ color: "red" }}>Lowest Price</Text>}
-              />
-              <RadioButtonItem 
-                value='DateASC' 
-                label={<Text style={{ color: "red" }}>Most Recent</Text>}              
-              />
-              <RadioButtonItem
-                value='DateDSC'
-                label={<Text style={{ color: "red" }}>Least Recent</Text>}
-              />
-            </RadioButtonGroup>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={hideDialog}>Dismiss</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-      <FlatList
-        contentContainerStyle={{paddingHorizontal: 10}}
-        data={state.filteredData}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text>{item.name} - ${item.price}</Text>
-            <Text>Category: {item.category}</Text>
-            <Text>Date: {item.createdAt}</Text>
-
-          </View>
-        )}
-      />
+      <TransactionList data={state.filteredData}/>
   </View>
   </PaperProvider>
   );
@@ -152,9 +91,7 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flex: 1,
-    // paddingTop: 10,
-    // paddingHorizontal: 10,
-    // padding: 20,
+    backgroundColor: 'lavender'
   },
   sortLabel: {
     padding: 0, 
@@ -167,11 +104,6 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     borderRadius: 0,
-    // height: 40,
-    // borderColor: 'gray',
-    // borderWidth: 1,
-    // marginBottom: 10,
-    // paddingLeft: 8,
   },
   item: {
     padding: 10,
