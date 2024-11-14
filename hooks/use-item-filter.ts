@@ -1,38 +1,35 @@
 import { useEffect, useReducer } from 'react';
-import { Category, Item } from '../types/Item';
+import { Category, SortCategory, Item } from '../types/Item';
 
 type Action =
   | { type: 'SET_SEARCH_TEXT'; payload: string }
   | { type: 'SET_FILTER'; payload: Category }
-  | { type: 'TOGGLE_SORT' };
+  | { type: 'TOGGLE_SORT';payload: SortCategory };
 
 const initialState = {
   searchText: '',
   currentFilter: 'All', // Default
-  sortOrder: true, // Sort order (false = ascending, true = descending)
+  sortBy: 'PriceDSC',
   filteredData: [] as Item[], // Initial filtered data
   items: [] as Item[],
 };
 
 // Helper function for sorting
-const sortData = (data: Item[], sortOrder: boolean): Item[] => {
+const sortData = (data: Item[], sortBy: SortCategory): Item[] => {
   return [...data].sort((a, b) => {
-    const dateA = new Date(a.createdAt);  // Convert 'createdAt' to Date object
-    const dateB = new Date(b.createdAt);  // Convert 'createdAt' to Date object
-
-    if (sortOrder) {
-      return dateA.valueOf() - dateB.valueOf();  // Ascending order: smaller dates come first
-    } else {
-      return dateB.valueOf() - dateA.valueOf();  // Ascending order: smaller dates come first
+    switch(sortBy) {
+      case 'PriceASC':
+        return b.price - a.price; //sort price by ascending
+      case 'PriceDSC':
+        return a.price - b.price; //sort date by ascending
+      case 'DateASC':
+        return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf();  // Sort date by asscending 
+      case 'DateDSC':
+        return new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf();  // Sort date by descending 
+      default:
+        return a.price - b.price; // default to price ascending
     }
   });
-  // return [...data].sort((a, b) => {
-  //   if (sortOrder) {
-  //     return b.price - a.price; // Sort by descending 
-  //   } else {
-  //     return a.price - b.price; // Sort by ascending
-  //   }
-  // });
 };
 
 // Helper function to filter data by category and search text
@@ -42,28 +39,27 @@ const filterAndSearchData = (items: Item[], category: Category, searchText: stri
     ? items  
     : items.filter(item => item.category === category);
 
-  // Apply search filter to the data (search is always applied regardless of category)
   return filteredByCategory.filter(item =>
     item.name.toLowerCase().includes(searchText.toLowerCase()) // Apply search filter
   );
 };
 
-// Reducer to handle search, filter by category, and asc/dsc sort
+// Reducer to handle search, filter by category, and ASC/DSC date or price sort
 function reducer(state: any, action: Action) {
   switch (action.type) {
     case 'SET_SEARCH_TEXT': {
-      const filteredDataWithSearch = filterAndSearchData(state.items, state.currentFilter, action.payload);
-      const sortedData = sortData(filteredDataWithSearch, state.sortOrder);
+      const filteredData = filterAndSearchData(state.items, state.currentFilter, action.payload);
+      const sortedData = sortData(filteredData, state.sortBy);
       return {
         ...state,
-        searchText: action.payload,
         filteredData: sortedData,
+        searchText: action.payload,
       };
     }
 
     case 'SET_FILTER': {
-      const filteredDataWithSearchForFilter = filterAndSearchData(state.items, action.payload, state.searchText);
-      const sortedData = sortData(filteredDataWithSearchForFilter, state.sortOrder);
+      const filteredData = filterAndSearchData(state.items, action.payload, state.searchText);
+      const sortedData = sortData(filteredData, state.sortBy);
       return {
         ...state,
         currentFilter: action.payload,
@@ -72,11 +68,11 @@ function reducer(state: any, action: Action) {
     }
 
     case 'TOGGLE_SORT': {
-      const sortedDataAfterToggle = sortData(state.filteredData, !state.sortOrder);
+      const sortedData = sortData(state.filteredData, action.payload);
       return {
         ...state,
-        filteredData: sortedDataAfterToggle,
-        sortOrder: !state.sortOrder,
+        filteredData: sortedData,
+        sortBy: action.payload,
       };
     }
 
@@ -108,8 +104,8 @@ const useItemFilter = (items: Item[]) => {
   };
 
   // Handle asc/dsc toggle of sorting
-  const handleSortToggle = () => {
-    dispatch({ type: 'TOGGLE_SORT' });
+  const handleSortToggle = (sortCategory: SortCategory) => {
+    dispatch({ type: 'TOGGLE_SORT', payload: sortCategory});
   };
 
   return {

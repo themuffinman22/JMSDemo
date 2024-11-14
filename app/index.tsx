@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { Item } from '../types/Item';
+import { Item, SortCategory, Category } from '../types/Item';
 import useItemFilter from '../hooks/use-item-filter'
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import { Searchbar, Button, PaperProvider, Portal, Dialog, RadioButton } from 'react-native-paper';
+import { Searchbar, Button, PaperProvider, Portal, Dialog, Divider  } from 'react-native-paper';
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 
 const items: Item[] = [
   { id: 1, name: 'Netflix', category: 'Bills', price: 15.49, createdAt: '2024-11-01' },
@@ -48,13 +49,13 @@ export default function TabOneScreen() {
   } = useItemFilter(items); // Using the custom hook
 
   const [visible, setVisible] = React.useState(false);
-
   const showDialog = () => setVisible(true);
-
   const hideDialog = () => setVisible(false);
-
-  const [checked, setChecked] = React.useState('first');
-
+  const currentSort = state.sortBy;
+  const setSort = (sort: SortCategory) => {
+    handleSortToggle(sort)
+    hideDialog()
+  }
 
   return (
     <PaperProvider>
@@ -69,34 +70,53 @@ export default function TabOneScreen() {
         <SegmentedControl
           values={['All', 'Bills', 'Food', 'Misc']}
           selectedIndex={0}
-          onValueChange={val => handleFilterChange(val)}
+          onValueChange={(val:Category) => handleFilterChange(val)}
           style={{margin: 12.5, flex: 1, paddingVertical: 20 }}
         />
-        <Button labelStyle={styles.sortLabel} style={styles.sort} icon="sort" mode="contained" onPress={handleSortToggle}>
-            Sort
+        <Button 
+          labelStyle={styles.sortLabel} 
+          style={styles.sort} 
+          icon="sort" 
+          mode="contained" 
+          onPress={showDialog}
+        >
+          Sort
         </Button>
       </View>
+      <Divider/>
       <Portal>
-          <Dialog visible={true} onDismiss={hideDialog}>
-            <Dialog.Title>Alert</Dialog.Title>
-            <Dialog.Content>
-            <RadioButton
-        value="first"
-        status={ checked === 'first' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('first')}
-      />
-      <RadioButton
-        value="second"
-        status={ checked === 'second' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('second')}
-      />
-              <Text variant="bodyMedium">This is simple dialog</Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={hideDialog}>Done</Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title>Sort By:</Dialog.Title>
+          <Dialog.Content>
+            <RadioButtonGroup
+              containerStyle={{ marginBottom: 10 }}
+              selected={currentSort}
+              onSelected={(value: SortCategory) => setSort(value)}
+              radioBackground="green"
+            >
+              <RadioButtonItem 
+                value='PriceASC' 
+                label={<Text style={{ color: "red" }}>Highest Price</Text>}              
+              />
+              <RadioButtonItem
+                value='PriceDSC'
+                label={<Text style={{ color: "red" }}>Lowest Price</Text>}
+              />
+              <RadioButtonItem 
+                value='DateASC' 
+                label={<Text style={{ color: "red" }}>Most Recent</Text>}              
+              />
+              <RadioButtonItem
+                value='DateDSC'
+                label={<Text style={{ color: "red" }}>Least Recent</Text>}
+              />
+            </RadioButtonGroup>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={hideDialog}>Dismiss</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
       <FlatList
         contentContainerStyle={{paddingHorizontal: 10}}
         data={state.filteredData}
@@ -105,6 +125,8 @@ export default function TabOneScreen() {
           <View style={styles.item}>
             <Text>{item.name} - ${item.price}</Text>
             <Text>Category: {item.category}</Text>
+            <Text>Date: {item.createdAt}</Text>
+
           </View>
         )}
       />
