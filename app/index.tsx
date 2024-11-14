@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Item, SortCategory, Category } from '../types/Item';
+import { View } from 'react-native';
+import { Item } from '../types/Item';
 import useItemFilter from '../hooks/use-item-filter'
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import { Searchbar, Button, PaperProvider, Portal, Dialog, Divider  } from 'react-native-paper';
+import { Searchbar, PaperProvider, Divider  } from 'react-native-paper';
 import SortButton from '../components/sort-button/sort-button';
 import TransactionList from '../components/transaction-list/transaction-list';
+import styles from './index.styles'
 
 const items: Item[] = [
   { id: 1, name: 'Netflix', category: 'Bills', price: 15.49, createdAt: '2024-11-01' },
@@ -63,7 +64,7 @@ export default function TabOneScreen() {
           values={['All', 'Bills', 'Food', 'Misc']}
           selectedIndex={0}
           onValueChange={(val) => handleFilterChange(val)}
-          style={{margin: 12.5, flex: 1, paddingVertical: 20 }}
+          style={styles.segment}
         />
         <SortButton sortBy={state.sortBy} handleSortToggle={handleSortToggle}/>
       </View>
@@ -73,41 +74,3 @@ export default function TabOneScreen() {
   </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-  subContainer: {
-    flex: 1,
-    backgroundColor: 'lavender'
-  },
-  sortLabel: {
-    padding: 0, 
-    margin: 0
-  }, 
-  sort: {
-    width: 90, 
-    height: 40, 
-    marginRight: 12.5,
-  },
-  searchBar: {
-    borderRadius: 0,
-  },
-  item: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-  },
-});

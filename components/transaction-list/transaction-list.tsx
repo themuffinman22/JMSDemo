@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { Item} from '../../types/Item';
 import styles from './transaction-list.styles'
 import TransactionListItem from './transaction-list-item';

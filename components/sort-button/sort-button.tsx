@@ -44,7 +44,6 @@ return (
             selected={sortBy}
             onSelected={(value: SortCategory) => setSort(value)}
             radioBackground="purple"
-            // would've liked to make color match sort button but radioBackground prop is broken, sad
           >
             <Divider/>
             <RadioButtonItem
