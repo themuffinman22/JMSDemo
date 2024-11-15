@@ -22,17 +22,17 @@ const TransactionListItem: React.FC<ListItemProps> = ({ item }) => {
 
   return(
     <View style={styles.itemContainer}>
-      <View style={styles.topRow}>
-        <Text style={{flex: 1}} variant='titleMedium'>{item.name}</Text>
-        <Text style={{textAlign: 'right'}} variant='titleLarge'>${item.price}</Text>
-      </View>
-      <Text style={styles.dateText} variant='titleSmall'>Transaction Date: {formatDate(item.createdAt)}</Text>
-      <Divider style={{height: 2}}/>
       <View style={{backgroundColor: '#9E5F8A'}}>
         <Text style={styles.categoryText}variant='titleSmall'>
           {item.category}
         </Text>
       </View>
+      <Divider style={{height: 2}}/>
+      <View style={styles.topRow}>
+        <Text style={{flex: 1}} variant='titleMedium'>{item.name}</Text>
+        <Text style={{textAlign: 'right'}} variant='titleLarge'>${item.price}</Text>
+      </View>
+      <Text style={styles.dateText} variant='titleSmall'>{formatDate(item.createdAt)}</Text>
     </View>
 )}
 

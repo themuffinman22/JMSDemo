@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   topRow: {
     flexDirection: 'row', 
     paddingHorizontal: 10, 
-    paddingTop: 10,
+    paddingTop: 5,
   },
   dateText: {
     paddingHorizontal: 10,
