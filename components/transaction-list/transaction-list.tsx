@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { Item} from '../../types/Item';
 import styles from './transaction-list.styles'
 import TransactionListItem from './transaction-list-item';
@@ -17,7 +17,8 @@ const TransactionList: React.FC<ListProps> = ({ data }) => {
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <TransactionListItem item={item}/>
-    )}
+      )}
+      ListFooterComponent={() => <View style={styles.emptyFooter}/>}
   />
   )
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Item } from '../types/Item';
 import useItemFilter from '../hooks/use-item-filter'
-import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import SegmentedControl from '../components/segmented-control/segmented-control';
 import { Searchbar, PaperProvider, Divider  } from 'react-native-paper';
 import SortButton from '../components/sort-button/sort-button';
 import TransactionList from '../components/transaction-list/transaction-list';
@@ -59,12 +59,11 @@ export default function TabOneScreen() {
         style={styles.searchBar}
       />
       <Divider/>
-      <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: "#f2f2f2"}}>
-        <SegmentedControl
+      <View style={styles.row}>
+        <SegmentedControl 
+          handleFilterChange={handleFilterChange} 
+          currentFilter={state.currentFilter}
           values={['All', 'Bills', 'Food', 'Misc']}
-          selectedIndex={0}
-          onValueChange={(val) => handleFilterChange(val)}
-          style={styles.segment}
         />
         <SortButton sortBy={state.sortBy} handleSortToggle={handleSortToggle}/>
       </View>

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   item: {
@@ -32,6 +32,11 @@ const styles = StyleSheet.create({
     color: 'white', 
     marginLeft: 7,
    },
+   emptyFooter: {
+    backgroundColor: 'transparent',
+    // inset not working for flatlist, invisible footer instead
+    height: Platform.OS === 'ios' ? 30 : 15, 
+   }
 });
 
 export default styles;

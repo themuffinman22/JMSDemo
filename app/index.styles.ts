@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#ccc',
   },
-  segment: {
-    margin: 12.5, 
-    flex: 1, 
-    paddingVertical: 20,
-  },
+  row: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    backgroundColor: "#f2f2f2",
+  }
 });
 
 export default styles;
