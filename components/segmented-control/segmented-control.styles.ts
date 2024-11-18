@@ -5,6 +5,9 @@ const styles = StyleSheet.create({
     margin: 12.5, 
     flex: 1, 
     height: 40,
+    color: "red",
+    // backgroundColor: "lavender",
+    overflow: 'hidden'
   },
 });
 
