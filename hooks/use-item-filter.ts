@@ -1,5 +1,6 @@
-import { useEffect, useReducer } from 'react';
-import { Category, SortCategory, Item } from '../types/Item';
+import { useEffect, useReducer, useRef } from 'react';
+import { Category, SortCategory, Item, categoryColors } from '../types/Item';
+import { Animated, Easing } from 'react-native';
 
 type Action =
   | { type: 'SET_SEARCH_TEXT'; payload: string }
@@ -9,12 +10,16 @@ type Action =
 const initialState = {
   searchText: '',
   currentFilter: 'All', // Default
+  previousFilter: 'All', // Default, will update after setting current
   sortBy: 'PriceDSC',
   filteredData: [] as Item[], // Initial filtered data
   items: [] as Item[],
+  filteredBackgroundColor: new Animated.Value(0),
 };
 
-//vSorting
+//Helpers
+//
+//Sorting
 const sortData = (data: Item[], sortBy: SortCategory): Item[] => {
   return [...data].sort((a, b) => {
     switch(sortBy) {
@@ -32,7 +37,7 @@ const sortData = (data: Item[], sortBy: SortCategory): Item[] => {
   });
 };
 
-//vFilter data by category and search text
+// Filter data by category and search text
 const filterAndSearchData = (items: Item[], category: Category, searchText: string): Item[] => {
   // If category is 'All', don't filter by category but apply search
   const filteredByCategory = category === Category.All 
@@ -62,6 +67,7 @@ function reducer(state: any, action: Action) {
       const sortedData = sortData(filteredData, state.sortBy);
       return {
         ...state,
+        previousFilter: state.currentFilter,
         currentFilter: action.payload,
         filteredData: sortedData,
       };
@@ -86,6 +92,29 @@ const useItemFilter = (items: Item[]) => {
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     items, // Now pass the items to the initial state
+  });
+
+  const backgroundColor = useRef(new Animated.Value(0)).current;
+
+  const animateBackgroundColor = () => {
+    backgroundColor.setValue(0);
+    Animated.timing(backgroundColor, {
+      toValue: 1,
+      duration: 150,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  useEffect(() => {
+    if (state.previousFilter !== state.currentFilter) {
+      animateBackgroundColor()
+    }
+  }, [state.currentFilter])
+
+  const filteredBackgroundColorColor = backgroundColor.interpolate({
+    inputRange: [0, 1],
+    outputRange: [categoryColors[state.previousFilter], categoryColors[state.currentFilter] ],
   });
 
   // Runs on mount to ensure data renders
@@ -113,6 +142,7 @@ const useItemFilter = (items: Item[]) => {
     handleSearch,
     handleFilterChange,
     handleSortToggle,
+    filteredBackgroundColorColor,
   };
 };
 

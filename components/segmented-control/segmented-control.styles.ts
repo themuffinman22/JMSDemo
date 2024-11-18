@@ -1,13 +1,15 @@
+import { ColorPalette } from '@/constants/color-palette';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   segment: {
-    margin: 12.5, 
+    margin: 7.5,
     flex: 1, 
     height: 40,
-    color: "red",
-    // backgroundColor: "lavender",
-    overflow: 'hidden'
+    borderRadius: 8,
+    overflow: 'hidden',
+    tintColor: ColorPalette.gray75,
+    backgroundColor: ColorPalette.gray10,
   },
 });
 

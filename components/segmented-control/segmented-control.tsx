@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segmented } from './segmented';
+import { Segmented } from './segmented'; // imports 
 import { SegmentProps } from './types/SegmentProps';
 
 const SegmentedControl: React.FC<SegmentProps> = ({ handleFilterChange, currentFilter, values}) => {

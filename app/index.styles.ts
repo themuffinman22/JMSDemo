@@ -1,3 +1,4 @@
+import { ColorPalette } from '@/constants/color-palette';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flex: 1,
-    backgroundColor: 'lavender'
+    backgroundColor: ColorPalette.lavender,
   },
   sortLabel: {
     padding: 0, 
@@ -39,7 +40,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row', 
     alignItems: 'center', 
-    // backgroundColor: "#f2f2f2",
   }
 });
 

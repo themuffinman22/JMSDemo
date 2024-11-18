@@ -5,6 +5,7 @@ import { Button, Portal, Dialog, Divider  } from 'react-native-paper';
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import styles from './sort-button.styles'
 import ButtonLabel from './button-label';
+import { ColorPalette } from '@/constants/color-palette';
 
 interface SortProps {
   sortBy: string;
@@ -43,7 +44,7 @@ return (
             containerStyle={{ marginBottom: 10 }}
             selected={sortBy}
             onSelected={(value: SortCategory) => setSort(value)}
-            radioBackground="purple"
+            radioBackground={ColorPalette.radioPurple}
           >
             <Divider/>
             <RadioButtonItem
@@ -78,6 +79,7 @@ return (
       </Dialog>
     </Portal>
   </View>
-)}
+  )
+}
 
 export default SortButton;

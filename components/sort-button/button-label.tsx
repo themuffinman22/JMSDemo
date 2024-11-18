@@ -9,8 +9,6 @@ interface LabelProps {
 }
 
 const ButtonLabel: React.FC<LabelProps> = ({ sortBy, buttonValue,labelText }) => {
-  const isSelected = sortBy === buttonValue
-
   return ( 
     <Text 
       style={sortBy === buttonValue ? styles.selectedText : styles.text }
@@ -18,7 +16,8 @@ const ButtonLabel: React.FC<LabelProps> = ({ sortBy, buttonValue,labelText }) =>
     >
       {labelText}
     </Text>
-)}
+  )
+}
 
 
 export default ButtonLabel;

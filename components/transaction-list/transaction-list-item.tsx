@@ -1,8 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Item} from '../../types/Item';
+import { categoryColors, Item} from '../../types/Item';
 import styles from './transaction-list.styles'
-import { Text, Divider } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 
 interface ListItemProps {
   item: Item
@@ -19,21 +19,22 @@ function formatDate(dateString: string): string {
 }
 
 const TransactionListItem: React.FC<ListItemProps> = ({ item }) => {
-
+  const backgroundColor = categoryColors[item.category];
   return(
     <View style={styles.itemContainer}>
-      <View style={{backgroundColor: '#9E5F8A'}}>
+      <View style={{backgroundColor}}>
         <Text style={styles.categoryText}variant='titleSmall'>
           {item.category}
         </Text>
       </View>
-      <Divider style={{height: 2}}/>
       <View style={styles.topRow}>
-        <Text style={{flex: 1}} variant='titleMedium'>{item.name}</Text>
+        <Text style={{flex: 1, fontWeight: 'bold', fontSize: 20}} variant='titleLarge'>{item.name}</Text>
         <Text style={{textAlign: 'right'}} variant='titleLarge'>${item.price}</Text>
       </View>
       <Text style={styles.dateText} variant='titleSmall'>{formatDate(item.createdAt)}</Text>
+      <View style={{flex: 1, height: 15, backgroundColor}}/>
     </View>
-)}
+    )
+  }
 
 export default TransactionListItem;

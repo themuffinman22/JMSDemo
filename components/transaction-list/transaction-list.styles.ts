@@ -1,3 +1,4 @@
+import { ColorPalette } from '@/constants/color-palette';
 import { Platform, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -21,17 +22,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10, 
     paddingTop: 5,
   },
+  emptyRow: {
+    padding: 10,
+  },
   dateText: {
     paddingHorizontal: 10,
     paddingBottom: 5,
   },
   categoryText: {
-    padding: 4, 
+    padding: 4,
+    paddingVertical: 5, 
     fontWeight: "bold", 
     flex: 1, 
     color: 'white', 
     marginLeft: 7,
    },
+   divider: {
+    height: 3, 
+    backgroundColor: ColorPalette.gray30,
+  },
    emptyFooter: {
     backgroundColor: 'transparent',
     // inset not working for flatlist, invisible footer instead

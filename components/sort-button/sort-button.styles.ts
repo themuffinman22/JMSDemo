@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   sort: {
     width: 90, 
     height: 40, 
-    marginRight: 12.5,
+    marginRight: 10,
   },
   buttonItem: {
     marginVertical: 10,

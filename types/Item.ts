@@ -1,9 +1,18 @@
+import { ColorPalette } from "@/constants/color-palette";
+
 export const Category = { 
     All: 'All',
     Bills: 'Bills',
     Food: 'Food',
     Misc: 'Misc',
 } as const;
+
+export const categoryColors: Record<string, string> = {
+    All: ColorPalette.all,
+    Bills: ColorPalette.bills,
+    Food: ColorPalette.food,
+    Misc: ColorPalette.misc,
+  };
 
 export type Category = typeof Category[keyof typeof Category]; 
 
