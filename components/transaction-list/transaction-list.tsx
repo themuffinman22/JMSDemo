@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { Animated, FlatList, View } from 'react-native';
 import { Item} from '../../types/Item';
 import styles from './transaction-list.styles'
 import TransactionListItem from './transaction-list-item';
@@ -7,9 +7,10 @@ import ListEmpty from './list-empty';
 
 interface ListProps {
   data: [Item]
+  filterColor: Animated.AnimatedInterpolation<string | number>
 }
 
-const TransactionList: React.FC<ListProps> = ({ data }) => {
+const TransactionList: React.FC<ListProps> = ({ data, filterColor }) => {
   return(
     <FlatList
       contentInset={{bottom: 20}}
@@ -19,7 +20,7 @@ const TransactionList: React.FC<ListProps> = ({ data }) => {
       renderItem={({ item }) => (
         <TransactionListItem item={item}/>
       )}
-      ListEmptyComponent={() => <ListEmpty/>}
+      ListEmptyComponent={() => <ListEmpty filterColor={filterColor}/>}
       ListFooterComponent={() => <View style={styles.emptyFooter}/>}
   />
   )

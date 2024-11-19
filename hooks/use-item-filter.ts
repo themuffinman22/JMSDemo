@@ -14,7 +14,7 @@ const initialState = {
   sortBy: 'PriceDSC',
   filteredData: [] as Item[], // Initial filtered data
   items: [] as Item[],
-  filteredBackgroundColor: new Animated.Value(0),
+  filterColor: new Animated.Value(0),
 };
 
 //Helpers
@@ -112,7 +112,7 @@ const useItemFilter = (items: Item[]) => {
     }
   }, [state.currentFilter])
 
-  const filteredBackgroundColorColor = backgroundColor.interpolate({
+  const filterColor = backgroundColor.interpolate({
     inputRange: [0, 1],
     outputRange: [categoryColors[state.previousFilter], categoryColors[state.currentFilter] ],
   });
@@ -142,7 +142,7 @@ const useItemFilter = (items: Item[]) => {
     handleSearch,
     handleFilterChange,
     handleSortToggle,
-    filteredBackgroundColorColor,
+    filterColor,
   };
 };
 

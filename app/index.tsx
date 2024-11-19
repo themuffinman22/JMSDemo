@@ -15,19 +15,19 @@ export default function InitialScreen() {
     handleSearch,
     handleFilterChange,
     handleSortToggle,
-    filteredBackgroundColorColor,
+    filterColor,
   } = useItemFilter(items); // custom hook
 
   return (
     <PaperProvider>
       <View style={styles.subContainer}>
         <Searchbar
-          placeholder="Search"
+          placeholder="Search Transactions"
           value={state.searchText}
           onChangeText={handleSearch}
           style={styles.searchBar}
         />
-        <Animated.View style={{backgroundColor: filteredBackgroundColorColor}}>
+        <Animated.View style={{backgroundColor: filterColor}}>
           <Divider style={{height: 5, backgroundColor: ColorPalette.gray50}}/>
           <Animated.View 
             style={{
@@ -43,7 +43,7 @@ export default function InitialScreen() {
           </Animated.View>
           <Divider style={{height: 1, backgroundColor: ColorPalette.gray50}}/>
         </Animated.View>
-        <TransactionList data={state.filteredData}/>
+        <TransactionList filterColor={filterColor} data={state.filteredData}/>
     </View>
   </PaperProvider>
   );

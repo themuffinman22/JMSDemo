@@ -11,6 +11,7 @@ export const Segmented: React.FC<SegmentProps> = ({ handleFilterChange, values})
       onValueChange={(val) => handleFilterChange(val)}
       style={styles.segment}
       fontStyle={{fontSize: 14, color: 'white'}}
+      activeFontStyle={{fontSize: 14, color: 'white'}}
     />
   )
 }

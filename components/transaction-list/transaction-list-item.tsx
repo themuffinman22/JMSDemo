@@ -28,8 +28,8 @@ const TransactionListItem: React.FC<ListItemProps> = ({ item }) => {
         </Text>
       </View>
       <View style={styles.topRow}>
-        <Text style={{flex: 1, fontWeight: 'bold', fontSize: 20}} variant='titleLarge'>{item.name}</Text>
-        <Text style={{textAlign: 'right'}} variant='titleLarge'>${item.price}</Text>
+        <Text style={{flex: 1, fontSize: 20}} variant='titleLarge'>{item.name}</Text>
+        <Text style={{textAlign: 'right', fontWeight: 'bold', fontSize: 18}} variant='titleLarge'>${item.price}</Text>
       </View>
       <Text style={styles.dateText} variant='titleSmall'>{formatDate(item.createdAt)}</Text>
       <View style={{flex: 1, height: 15, backgroundColor}}/>
