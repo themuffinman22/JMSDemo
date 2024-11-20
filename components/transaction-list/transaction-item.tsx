@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { categoryColors, Item} from '../../types/Item';
 import styles from './transaction-list.styles'
 import { Text } from 'react-native-paper';
-import { formatDate } from './helpers/transaction-helpers';
+import { formatDate, numberToCurrency } from './helpers/transaction-helpers';
 
 interface ItemProps {
   item: Item
@@ -21,7 +21,7 @@ const TransactionItem: React.FC<ItemProps> = ({ item }) => {
       <View style={styles.topRow}>
         <Text style={{flex: 1, fontSize: 20}} variant='titleLarge'>{item.name}</Text>
         <Text style={{textAlign: 'right', fontWeight: 'bold', fontSize: 18}} variant='titleLarge'>
-          { item.price}
+          {numberToCurrency(item.price)}
         </Text>
       </View>
       <Text style={styles.dateText} variant='titleSmall'>{formatDate(item.createdAt)}</Text>

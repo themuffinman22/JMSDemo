@@ -45,7 +45,7 @@ export const items: Item[] = [
     { id: 9, name: 'iPhone -Monthly', category: 'Bills', price: 39.99, createdAt: '2024-11-04' },
     { id: 10, name: 'Car -Monthly', category: 'Bills', price: 459.99, createdAt: '2024-11-04' },
     { id: 11, name: 'Water & Sewer', category: 'Bills', price: 40.63, createdAt: '2024-11-05' },
-    { id: 12, name: 'Rent - Monthly', category: 'Bills', price: 1826.93, createdAt: '2024-11-05' },
+    { id: 12, name: 'Rent - Monthly', category: 'Bills', price: 1826.00, createdAt: '2024-11-05' },
     { id: 13, name: 'Veterinarian', category: 'Bills', price: 289.32, createdAt: '2024-11-06' },
     { id: 14, name: 'Elden Ring DLC', category: 'Misc', price: 39.99, createdAt: '2024-11-06' },
     { id: 15, name: 'Trattoria Carina', category: 'Food', price: 72.54, createdAt: '2024-11-06' },
