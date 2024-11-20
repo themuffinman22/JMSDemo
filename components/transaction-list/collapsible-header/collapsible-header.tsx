@@ -27,7 +27,7 @@ const CollapsibleHeader: React.FC<HeaderProps> = ({scrollY, numberOfTransactions
   const collapsedRef = useAnimatedRef()
 
   const headerStyle = useAnimatedStyle(() => {
-    // use transactionList scrollY to animate height between expanded and collapse header
+    // use transactionList scrollY to animate height between expanded header, collapsed header, and divider
     const headerHeight = interpolate(
       scrollY.value, 
       [0, expandedHeight], 
@@ -81,37 +81,62 @@ const CollapsibleHeader: React.FC<HeaderProps> = ({scrollY, numberOfTransactions
   // Reanimated animates height and opacity of header when scrolling
   // Native Animated animates background color of header when category of filter changes
   return (
-    <Animated.View onLayout={handleLayoutExpanded} ref={expandedRef} style={[expandedHeight > 0 && headerStyle]}>
+    <Animated.View 
+      onLayout={handleLayoutExpanded} 
+      ref={expandedRef} 
+      style={[expandedHeight > 0 && headerStyle]}
+    >
       <NativeAnimated.View style={{backgroundColor: filterColor}}>
         <Animated.View style={[headerOpacityExpanded, styles.expandedContainer]}>
           <View style={styles.expandedRow}>
-              <Icon source="credit-card-multiple" size={20} color='white'/>
+              <Icon 
+                source="credit-card-multiple" 
+                size={20} 
+                color='white'
+              />
             <Text style={[styles.headerText]}>
               {`Number of Transactions: ${numberOfTransactions}`}
             </Text>
           </View>
           <View style={styles.expandedRow}>
-            <Icon source="account-cash" size={20} color='white'/>
+            <Icon 
+              source="account-cash" 
+              size={20} 
+              color='white'
+            />
             <Text style={[styles.headerText]}>
               {`Total Spent: ${numberToCurrency(totalSpent)}`}
             </Text>
           </View>
         </Animated.View>
-        <Animated.View style={[headerOpacityCollapsed, styles.collapsed ]} ref={collapsedRef} onLayout={handleLayoutCollapsed}>
+        <Animated.View 
+          style={[headerOpacityCollapsed, styles.collapsedContainer]} 
+          ref={collapsedRef} 
+          onLayout={handleLayoutCollapsed}
+        >
           <View style={styles.collapsedRow}>
-            <Icon source="credit-card-multiple" size={16} color='white'/>
+            <Icon 
+              source="credit-card-multiple" 
+              size={16} 
+              color='white'
+            />
             <Text style={[styles.collapsedHeaderTextTransactions]}>
               {numberOfTransactions}
             </Text>
           </View>
           <View style={styles.collapsedRow}>
-            <Icon source="account-cash" size={16} color='white'/>
+            <Icon 
+              source="account-cash" 
+              size={16} 
+              color='white'
+            />
             <Text style={[styles.collapsedHeaderTextSpent]}>
               {numberToCurrency(totalSpent)}
             </Text>
           </View>
         </Animated.View>
       </NativeAnimated.View>
+      <Animated.View style={[{ height: expandedHeight }, styles.animatedDivider, headerStyle]}/>
     </Animated.View>
   )
 }

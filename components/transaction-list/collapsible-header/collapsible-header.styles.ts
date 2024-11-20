@@ -1,3 +1,4 @@
+import { ColorPalette } from "@/constants/color-palette";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -7,7 +8,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   expandedContainer: {
-    paddingVertical: 10,
+    paddingTop: 10,
+    paddingBottom: 17,
   },
   expandedRow: {
     flexDirection: 'row', 
@@ -15,9 +17,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15, 
     alignItems: 'center',
   },
-  collapsed: {
+  collapsedContainer: {
     flexDirection: 'row', 
-    paddingVertical: 10, 
+    paddingTop: 10, 
+    paddingBottom: 15,
     paddingHorizontal: 15, 
     position: 'absolute',
     top: 0,
@@ -43,6 +46,15 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
   },
+  animatedDivider: {
+    position: 'absolute', 
+    top: 0, 
+    left: 0, 
+    right: 0, 
+    backgroundColor: 'clear', 
+    borderBottomWidth: 5, 
+    borderColor: ColorPalette.gray30,
+  }
 });
 
 export default styles;
