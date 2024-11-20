@@ -12,6 +12,8 @@ const initialState = {
   currentFilter: 'All', // Default
   previousFilter: 'All', // Default, will update after setting current
   sortBy: 'PriceDSC',
+  totalSpent: 0,
+  numberOfTransactions: 0,
   filteredData: [] as Item[], // Initial filtered data
   items: [] as Item[],
   filterColor: new Animated.Value(0),
@@ -55,8 +57,11 @@ function reducer(state: any, action: Action) {
     case 'SET_SEARCH_TEXT': {
       const filteredData = filterAndSearchData(state.items, state.currentFilter, action.payload);
       const sortedData = sortData(filteredData, state.sortBy);
+      const totalSpent = sortedData.reduce((sum, item) => sum + item.price, 0);
       return {
         ...state,
+        numberOfTransactions: sortedData.length,
+        totalSpent: totalSpent,
         filteredData: sortedData,
         searchText: action.payload,
       };
@@ -65,8 +70,11 @@ function reducer(state: any, action: Action) {
     case 'SET_FILTER': {
       const filteredData = filterAndSearchData(state.items, action.payload, state.searchText);
       const sortedData = sortData(filteredData, state.sortBy);
+      const totalSpent = sortedData.reduce((sum, item) => sum + item.price, 0);
       return {
         ...state,
+        numberOfTransactions: sortedData.length,
+        totalSpent: totalSpent,
         previousFilter: state.currentFilter,
         currentFilter: action.payload,
         filteredData: sortedData,

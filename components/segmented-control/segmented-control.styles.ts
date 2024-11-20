@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   segment: {
-    margin: 10,
+    marginTop: 10,
+    marginHorizontal: 10,
     flex: 1, 
     height: 40,
     borderRadius: 8,
@@ -12,7 +13,8 @@ const styles = StyleSheet.create({
     backgroundColor: ColorPalette.gray10,
   },
   segmentAndroid: {
-    margin: 10,
+    marginTop: 10,
+    marginHorizontal: 10,
     flex: 1, 
     height: 40,
     borderRadius: 8,

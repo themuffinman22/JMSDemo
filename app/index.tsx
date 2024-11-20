@@ -7,7 +7,7 @@ import { Searchbar, PaperProvider, Divider  } from 'react-native-paper';
 import SortButton from '../components/sort-button/sort-button';
 import TransactionList from '../components/transaction-list/transaction-list';
 import styles from './index.styles'
-import { ColorPalette } from '@/constants/color-palette';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function InitialScreen() {
   const {
@@ -20,6 +20,7 @@ export default function InitialScreen() {
 
   return (
     <PaperProvider>
+      <SafeAreaProvider>
       <View style={styles.subContainer}>
         <Searchbar
           placeholder="Search Transactions"
@@ -28,7 +29,7 @@ export default function InitialScreen() {
           style={styles.searchBar}
         />
         <Animated.View style={{backgroundColor: filterColor}}>
-          <Divider style={{height: 5, backgroundColor: ColorPalette.gray50}}/>
+          <Divider style={styles.topDivider}/>
           <Animated.View 
             style={{
               ...styles.row, 
@@ -39,12 +40,23 @@ export default function InitialScreen() {
               currentFilter={state.currentFilter}
               values={['All', 'Bills', 'Food', 'Misc']}
             />
-            <SortButton sortBy={state.sortBy} handleSortToggle={handleSortToggle}/>
+            <SortButton 
+              sortBy={state.sortBy} 
+              handleSortToggle={handleSortToggle}
+            />
           </Animated.View>
-          <Divider style={{height: 1, backgroundColor: ColorPalette.gray50}}/>
         </Animated.View>
-        <TransactionList filterColor={filterColor} data={state.filteredData}/>
-    </View>
+        <TransactionList 
+          searchText={state.searchText}
+          currentFilter={state.currentFilter}
+          sortBy={state.sortBy}
+          totalSpent={state.totalSpent}
+          numberOfTransactions={state.numberOfTransactions}
+          data={state.filteredData}
+          filterColor={filterColor} 
+        />
+      </View>
+    </SafeAreaProvider>
   </PaperProvider>
   );
 }

@@ -1,5 +1,6 @@
 import { ColorPalette } from '@/constants/color-palette';
 import { Platform, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const styles = StyleSheet.create({
   item: {
@@ -44,7 +45,8 @@ const styles = StyleSheet.create({
    emptyFooter: {
     backgroundColor: 'transparent',
     // inset not working for flatlist, invisible footer instead
-    height: Platform.OS === 'ios' ? 30 : 15, 
+    // height: Platform.OS === 'ios' ? 30 : 15,
+    // height: useSafeAreaInsets().bottom, 
    }
 });
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Animated, View } from 'react-native';
 import styles from './transaction-list.styles'
 import { Text } from 'react-native-paper';
-import { ColorPalette } from '@/constants/color-palette';
 
 interface ListProps {
   filterColor: Animated.AnimatedInterpolation<string | number>
@@ -10,7 +9,7 @@ interface ListProps {
 
 const ListEmpty: React.FC<ListProps> = ({ filterColor }) => {
   const backgroundColor = filterColor
-  return(
+  return (
     <View style={styles.itemContainer}>
       <Animated.View style={{backgroundColor}}>
         <Text style={styles.categoryText} variant='titleSmall'>

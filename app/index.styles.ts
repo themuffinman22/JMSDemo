@@ -40,7 +40,11 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row', 
     alignItems: 'center', 
-  }
+  },
+  topDivider: {
+    height: 5, 
+    backgroundColor: ColorPalette.gray50,
+  },
 });
 
 export default styles;
